@@ -2,6 +2,34 @@ import java.io.*;
 import java.util.*;
 
 public class ManejadorArchivos {
+    private static final String[] RUTAS = {
+            "db/doctores.csv",
+            "db/pacientes.csv",
+            "db/citas.csv"
+    };
+
+    public static void inicializarBaseDeDatos() {
+        File carpeta = new File("db");
+
+        // Validación de si existe la carpeta, y si no, crearla
+        if (!carpeta.exists()) {
+            carpeta.mkdirs();
+        }
+
+        // Regenerar archivos faltantes
+        for (String ruta : RUTAS) {
+            File archivo = new File(ruta);
+            if (!archivo.exists()) {
+                try {
+                    archivo.createNewFile();
+                    System.out.println("Archivo regenerado: " + ruta);
+                } catch (IOException e) {
+                    System.err.println("Error al crear el archivo: " + ruta);
+                }
+            }
+        }
+    }
+
 
     // Limpia comas para evitar errores en el CSV
     public static String limpiar(String texto) {
